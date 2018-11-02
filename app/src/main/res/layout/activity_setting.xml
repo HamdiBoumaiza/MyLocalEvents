@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="settingsActivity"
+            type="app.hb.mylocalevents.activities.SettingActivity" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="@string/hey_there"
+                android:textAllCaps="true"
+                android:textColor="@color/colorBlack"
+                android:textSize="24sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:text="@string/mylocalevent_description"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/current_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_button_bg_item"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingEnd="50dp"
+                android:paddingStart="50dp"
+                android:paddingTop="10dp"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:visibility="gone" />
+
+
+            <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                android:id="@+id/discrete_seekbar_range"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                app:dsb_indicatorColor="@color/colorBeige"
+                app:dsb_indicatorElevation="0dp"
+                app:dsb_indicatorTextAppearance="@color/colorWhite"
+                app:dsb_max="200"
+                app:dsb_min="10"
+                app:dsb_progressColor="@color/colorAccent"
+                app:dsb_trackColor="@color/colorAccent"
+                app:dsb_value="100" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="1"
+                    android:text="@string/_10"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/tv_10sp" />
+
+                <TextView
+                    android:id="@+id/tv_range"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/tv_10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/_200"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/tv_10sp" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="Select a category of events :"
+                android:textColor="@color/colorBlack" />
+
+
+            <RelativeLayout
+                android:layout_margin="15dp"
+                android:background="@drawable/rounded_button_bg_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <Spinner
+                android:background="@color/colorWhite"
+                android:id="@+id/nice_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="3dp"
+                />
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/btn_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_button_bg_item"
+                android:onClick="@{settingsActivity::chooseDate}"
+                android:paddingBottom="10dp"
+                android:paddingEnd="50dp"
+                android:paddingStart="50dp"
+                android:paddingTop="10dp"
+                android:text="@string/choose_a_date"
+                android:textAllCaps="true"
+                android:textColor="@color/colorWhite" />
+
+            <Button
+                android:id="@+id/btn_getevents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_button_bg_item"
+                android:onClick="@{settingsActivity::getEvents}"
+                android:paddingBottom="10dp"
+                android:paddingEnd="50dp"
+                android:paddingStart="50dp"
+                android:paddingTop="10dp"
+                android:text="@string/get_events"
+                android:textAllCaps="true"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+</layout>

@@ -1,4 +1,4 @@
-package app.hb.mylocalevents.activities;
+package app.hb.mylocalevents.view.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import app.hb.mylocalevents.R;
+import app.hb.mylocalevents.view.details.DetailsEventActivity;
 import app.hb.mylocalevents.adapter.EventAdapter;
 import app.hb.mylocalevents.callback.IEventClickListener;
 import app.hb.mylocalevents.databinding.ActivityMainBinding;
@@ -34,7 +35,7 @@ import static app.hb.mylocalevents.util.BaseConstant.LATITUDE;
 import static app.hb.mylocalevents.util.BaseConstant.LONGITUDE;
 
 
-public class MainActivity extends AppCompatActivity implements IEventClickListener {
+public class MainActivity extends AppCompatActivity implements IEventClickListener,MainContract.IMainView {
 
     private static final String KM = "km";
     private static final String DATE_PREFIX = "T00:00:01";
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements IEventClickListen
     private Context mcontext;
     private ArrayList<Event> mEventList = new ArrayList<>();
     private ActivityMainBinding activityMainBinding;
+
+    private MainPresenter mainPresenter ;
 
 
     @Override
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements IEventClickListen
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        mainPresenter = new MainPresenter(this);
+
 
         Bundle values = getIntent().getExtras();
         if (values != null) {
@@ -66,9 +71,8 @@ public class MainActivity extends AppCompatActivity implements IEventClickListen
             String range = values.getString(DISTANCE);
             String idCategory = values.getString(CATEGORY);
 
-
             initRecyclerView();
-            getEventList(longitude, latitude, date, range, idCategory);
+            mainPresenter.getEvents(mcontext.getString(R.string.eventbrit_token),longitude, latitude, date, range, idCategory);
         }
 
 
@@ -83,57 +87,26 @@ public class MainActivity extends AppCompatActivity implements IEventClickListen
 
     }
 
-    public void getEventList(String longitude, String latitude, String date, String range, String idCategory) {
-        EventBriteApiInterface mEventBriteApiInterface = EventBriteClient.getInstance().getService();
-        Call<BritEventListResponse> call;
-        if (idCategory.equals("0")) {
-            call = mEventBriteApiInterface.getAllEvents(
-                    getString(R.string.eventbrit_token),
-                    String.valueOf(latitude),
-                    String.valueOf(longitude),
-                    date + DATE_PREFIX,
-                    range + KM,
-                    DISTANCE,
-                    EVENT_VENUE + "," + EVENT_CATEGORY);
-        } else {
-            call = mEventBriteApiInterface.getAllEvents(
-                    getString(R.string.eventbrit_token),
-                    String.valueOf(latitude),
-                    String.valueOf(longitude),
-                    date + DATE_PREFIX,
-                    range + KM,
-                    DISTANCE,
-                    idCategory,
-                    EVENT_VENUE + "," + EVENT_CATEGORY);
-        }
-
-        call.enqueue(new Callback<BritEventListResponse>() {
-            @Override
-            public void onResponse(final Call<BritEventListResponse> call, Response<BritEventListResponse> response) {
-                activityMainBinding.progress.setVisibility(View.GONE);
-                mEventList = response.body().getEvents();
-                if (mEventList.size() == 0) {
-                    Snackbar.make(activityMainBinding.parentLayout, mcontext.getString(R.string.no_events), Snackbar.LENGTH_LONG).show();
-                } else {
-
-                    eventAdapter.AddEvents(mEventList);
-                    //activityMainBinding.recyclerEvent.setAdapter(eventAdapter);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BritEventListResponse> call, Throwable t) {
-                Timber.e("onFailure  ::\n" + t.getMessage());
-                activityMainBinding.progress.setVisibility(View.GONE);
-            }
-        });
-    }
-
-
     @Override
     public void onItemClicked(int position) {
         Intent i = new Intent(mcontext, DetailsEventActivity.class);
         i.putExtra(BaseConstant.EVENT_OBJ, mEventList.get(position));
         startActivity(i);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        activityMainBinding.progress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEvents(ArrayList<Event> mEventList) {
+        if (mEventList != null){
+            if (mEventList.size() == 0) {
+                Snackbar.make(activityMainBinding.parentLayout, mcontext.getString(R.string.no_events), Snackbar.LENGTH_LONG).show();
+            } else {
+                eventAdapter.AddEvents(mEventList);
+            }
+        }
     }
 }

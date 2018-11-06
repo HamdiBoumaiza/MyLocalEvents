@@ -56,14 +56,10 @@ dependencies {
 
     implementation "org.adw.library:discrete-seekbar:$seekbar_version"
 
-    implementation "com.intentfilter:android-permissions:$permission_version"
-
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
     implementation "com.github.florent37:rxgps:$rxgps_version"
 
     implementation "com.jakewharton.timber:timber:$timber_version"
-
-    implementation "com.facebook.rebound:rebound:$rebound_version"
 
 
 }

@@ -6,7 +6,7 @@
 
         <variable
             name="settingsActivity"
-            type="app.hb.mylocalevents.activities.SettingActivity" />
+            type="app.hb.mylocalevents.view.settings.SettingActivity" />
     </data>
 
     <ScrollView

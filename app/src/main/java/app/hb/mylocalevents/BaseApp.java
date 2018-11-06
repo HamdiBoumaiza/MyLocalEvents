@@ -12,6 +12,5 @@ public class BaseApp extends Application {
         if (BuildConfig.DEBUG)
             Timber.plant(new Timber.DebugTree());
 
-
     }
 }
